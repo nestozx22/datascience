@@ -1,13 +1,6 @@
-====Average costs to prevent or detect cyber security incidents
-En que invierten mas las empresas según el sector
-En que invierten mas las empresas según el tamaño
-Cuales son los sectores que invierten mas
-Cual es el rango de inversión según sector y tamaño
-====Average costs to recover from cyber security incidents
-En que gastan mas las empresas según el sector
-En que gastan mas las empresas según el tamaño
-Cuales son los sectores que gastan mas
-Cual es el rango de costo según sector y tamaño
-====Relacionadas
-Existe una relación entre el monto invertido y el costo de recuperación según el sector
-Existe una relación entre el monto invertido y el costo de recuperación según el tamaño
+Cuales son los tipos de brechas que afectan a mas personas?
+Cuanto tiempo toma superar según el tipo de brecha?
+Cual es la forma de almacenamiento mas utilizada para almacenar la información de las brechas?
+Cuales son los estados mas atacados agrupado en años
+Cantidad de personas afectadas segun estado y años
+
