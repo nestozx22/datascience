@@ -4,5 +4,10 @@ Cual es la forma de almacenamiento mas utilizada para almacenar la información 
 Cuales son los estados mas atacados agrupado en años
 Cantidad de personas afectadas segun estado y años
 Cuantas empresas afectaron a terceros tras un ciberataque
+<<<<<<< HEAD
 otra pregunta
 hola medina
+=======
+text
+>>>>>>> 269cfdaa8d3d1ed1603cb843a96c99ef60cc4726
+otra pregunta
