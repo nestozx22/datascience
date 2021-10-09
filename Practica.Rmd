@@ -1,0 +1,15 @@
+```{r}
+getwd()
+datos=read_csv("Cyber Security Breaches.csv")
+brechas=datos$Type_of_Breach
+table((brechas))
+
+sum(table(brechas))
+
+length(unique(brechas))
+
+barplot(table(brechas))
+
+
+```
+
