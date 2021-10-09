@@ -17,7 +17,7 @@ mosaicplot(table(datos$Individuals_Affected),table(datos$Type_of_Breach))
 
 df=aggregate(datos$Individuals_Affected, by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum)
 
-df[order(df$x,decreasing=T),]
+df2=df[order(df$x,decreasing=T),]
 
 
 
