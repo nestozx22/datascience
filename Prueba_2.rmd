@@ -1,0 +1,30 @@
+```{r}
+install.packages("readr")
+library("readr")
+
+read_csv("Cyber Security Breaches.csv")
+getwd()
+datos=read_csv("Cyber Security Breaches.csv")
+brechas=datos$Type_of_Breach
+table((brechas))
+
+sum(table(brechas))
+length(unique(brechas))
+barplot(table(brechas))
+
+barplot(table(brechas),col=c("yellow","red","blue","green"),las=2)
+
+length(unique(datos$State))
+Estados=datos$State
+
+
+read_csv("Cyber Security Breaches.csv")
+getwd()
+datos=read_csv("Cyber Security Breaches.csv")
+Estados=datos$State
+table((Estados))
+barplot(table(Estados),col=c("yellow","red","blue","green"),las=2)
+
+read.ta
+```
+

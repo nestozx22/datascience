@@ -19,6 +19,8 @@ df=aggregate(datos$Individuals_Affected, by=list(TypeofBreach=datos$Type_of_Brea
 
 df2=df[order(df$x,decreasing=T),]
 
+barplot(table(brechas),col=c("yellow","red","blue","green"),las=2)
+
 
 
 ```
