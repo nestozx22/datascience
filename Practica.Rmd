@@ -1,8 +1,13 @@
 ```{r}
 getwd()
+<<<<<<< HEAD
 if(!require(readr)) {install.packages("readr")}
 datos=read.csv("Cyber Security Breaches.csv",sep=",")
 ?read.csv()
+=======
+library(readr)
+datos=read_csv("Cyber Security Breaches.csv")
+>>>>>>> fc0ac0cec5ca4bc13e54d150df69e4476e70e053
 brechas=datos$Type_of_Breach
 table((brechas))
 
@@ -10,13 +15,34 @@ sum(table(brechas))
 length(unique(brechas))
 length(unique(datos$State))
 
+
+table()
 table(datos$Individuals_Affected,datos$Type_of_Breach)
 tabla1=data.frame(datos$Individuals_Affected,datos$Type_of_Breach)
 tabla1
 
+<<<<<<< HEAD
 df=aggregate(as.double(datos$Individuals_Affected), by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum)
 
 df=df[order(df$x,decreasing=T),]
+=======
+mosaicplot(table(datos$Individuals_Affected),table(datos$Type_of_Breach))
+
+df=aggregate(datos$Individuals_Affected, by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum)
+typeof(df)
+df
+df2 <- c(aggregate(datos$Individuals_Affected, by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum))
+df2
+
+
+
+<<<<<<< HEAD
+df2[order(df2$x),]
+=======
+df2=df[order(df$x,decreasing=T),]
+
+>>>>>>> 98b247c65da2009c52bd6913e49a57f2b33bda4e
+>>>>>>> fc0ac0cec5ca4bc13e54d150df69e4476e70e053
 
 barplot((df$x),col=c("yellow","red","blue","green"),las=2)
 barplot(Estados,col=c("yellow","red","blue","green"),las=2)
