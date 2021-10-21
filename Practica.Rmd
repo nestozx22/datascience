@@ -1,5 +1,6 @@
 ```{r}
 getwd()
+library(readr)
 datos=read_csv("Cyber Security Breaches.csv")
 brechas=datos$Type_of_Breach
 table((brechas))
@@ -8,6 +9,8 @@ sum(table(brechas))
 length(unique(brechas))
 barplot(table(brechas))
 
+
+table()
 table(datos$Individuals_Affected,datos$Type_of_Breach)
 tabla1=data.frame(datos$Individuals_Affected,datos$Type_of_Breach)
 tabla1
@@ -16,7 +19,14 @@ table(tabla1)
 mosaicplot(table(datos$Individuals_Affected),table(datos$Type_of_Breach))
 
 df=aggregate(datos$Individuals_Affected, by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum)
+typeof(df)
+df
+df2 <- c(aggregate(datos$Individuals_Affected, by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum))
+df2
 
+
+
+df2[order(df2$x),]
 
 
 ```
