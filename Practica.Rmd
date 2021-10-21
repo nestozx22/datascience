@@ -1,22 +1,27 @@
 ```{r}
 getwd()
-datos=read_csv("Cyber Security Breaches.csv")
+if(!require(readr)) {install.packages("readr")}
+datos=read.csv("Cyber Security Breaches.csv",sep=",")
+?read.csv()
 brechas=datos$Type_of_Breach
 table((brechas))
 
 sum(table(brechas))
 length(unique(brechas))
-
+length(unique(datos$State))
 
 table(datos$Individuals_Affected,datos$Type_of_Breach)
 tabla1=data.frame(datos$Individuals_Affected,datos$Type_of_Breach)
 tabla1
 
-df=aggregate(datos$Individuals_Affected, by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum)
+df=aggregate(as.double(datos$Individuals_Affected), by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum)
 
-df2=df[order(df$x,decreasing=T),]
+df=df[order(df$x,decreasing=T),]
 
+barplot((df$x),col=c("yellow","red","blue","green"),las=2)
+barplot(Estados,col=c("yellow","red","blue","green"),las=2)
 
-
+is.atomic(logical)
+date()
 ```
 
