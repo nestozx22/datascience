@@ -1,5 +1,6 @@
 ```{r}
 getwd()
+install.packages("readr")
 library(readr)
 datos=read_csv("Cyber Security Breaches.csv")
 brechas=datos$Type_of_Breach
@@ -26,12 +27,10 @@ df2
 
 
 
-<<<<<<< HEAD
-df2[order(df2$x),]
-=======
-df2=df[order(df$x,decreasing=T),]
 
->>>>>>> 98b247c65da2009c52bd6913e49a57f2b33bda4e
+df2[order(df2$x),]
+
+df2=df[order(df$x,decreasing=T),]
 
 
 ```
