@@ -1,6 +1,11 @@
-Cuales son los tipos de brechas que afectan a mas personas?
-Cuanto tiempo toma superar según el tipo de brecha?
-Cual es la forma de almacenamiento mas utilizada para almacenar la información de las brechas?
-Cuales son los estados mas atacados agrupado en años
-Cantidad de personas afectadas segun estado y años
-Cuantas empresas afectaron a terceros tras un ciberataque
+¿Cuáles son los tipos de brechas que afectarona más personas?
+
+
+¿Cuánto tiempo le tomó a cada una de las empresas, según el tipo de brecha, superar el inconveniente?
+
+¿Qué tipo de almacenamiento de la información tuvo mas vulnerabilidades?
+
+¿Cuáles son los Estados más atacados?
+
+¿Cuántas empresas afectaron a terceros tras un ciberataque?
+
