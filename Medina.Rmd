@@ -13,38 +13,5 @@ library(tidyverse)
 
 datos=read.csv("Cyber Security Breaches.csv",sep=",")
 
-#datos=read_csv("Cyber Security Breaches.csv")
-#str(datos)
-
-#tipoBrecha=select(datos,Type_of_Breach)
-#str(tipoBrecha)
-
-#¿Cuáles son los 5 tipos de brechas que afectaron a más personas?
-
-df=data.frame(datos$Type_of_Breach,datos$Individuals_Affected)
-#df_order=df[order(df$datos.Type_of_Breach,decreasing=T),]
-
-df_sum=aggregate(datos$Individuals_Affected,by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum)
-
-df_order=df_sum[order(df_sum$x,decreasing=T),]
-
-#total_personas=sum(df_sum$x)
-
-ggplot(df_order, aes(x,TypeofBreach, colour = x)) + geom_count()
-
-
-
-
-
-
-mosaicplot(table(datos$Individuals_Affected),table(datos$Type_of_Breach))
-
-df2 <- c(aggregate(datos$Individuals_Affected, by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum))
-
-df2=df[order(df$x,decreasing=T),]
-
-barplot((df$x),col=c("yellow","red","blue","green"),las=2)
-barplot(Estados,col=c("yellow","red","blue","green"),las=2)
-
 
 ```
