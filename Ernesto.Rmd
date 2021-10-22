@@ -11,12 +11,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r cars}
-install.packages("readr")
-library(readr)
-?read.csv
-?read_csv
+if(!require(readr)) {install.packages("readr")}
+library("readr")
 
-df_cyber_brechas <- 
+
+df_cyber_brechas <- read_csv("Cyber Security Breaches.csv")
+problems(df_cyber_brechas)
+
 ```
 
 ## Including Plots
