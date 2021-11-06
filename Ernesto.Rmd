@@ -13,12 +13,76 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r cars}
 if(!require(readr)) {install.packages("readr")}
 library("readr")
+if(!require(dplyr)) {install.packages('dplyr')}
+library("dplyr")
+if(!require(ggplot2)) {install.packages('ggplot2')}
+library("ggplot2")
+if(!require(tidyverse)) {install.packages('tidyverse')}
+library("tidyverse")
+if(!require(ggthemes)) {install.packages('ggthemes')}
+library("ggthemes")
+#==Pregunta 1====================================================
+cyberb <- read_csv("Cyber Security Breaches.csv")
+
+cyberb$Type_of_Breach <- as.factor(cyberb$Type_of_Breach)
+
+cb2 <- data.frame(Type_of_Breach= cyberb$Type_of_Breach,Individuals_Affected = cyberb$Individuals_Affected)
+
+by_type <- cb2 %>% group_by(Type_of_Breach)
+
+by_type_sum <- by_type %>% summarise(Individuals_Affected = sum(Individuals_Affected))
+
+by_type_top5 <-  by_type_sum %>%
+                  arrange(desc(Individuals_Affected))%>%
+                  slice(1:5)
+
+ggplot(data = by_type_top5,
+       mapping = aes(Type_of_Breach, Individuals_Affected))+
+  geom_col()+
+  xlab("Tipos de brechas")+
+  ylab("Cantidad")+
+  ggtitle(("El top 5 de tipos de brechas"))+
+  theme_stata()
 
 
-df_cyber_brechas <- read_csv("Cyber Security Breaches.csv")
-problems(df_cyber_brechas)
+#===Pregunta 3==============================================================
+
+cyberb$Location_of_Breached_Information <- as.factor(cyberb$Location_of_Breached_Information)
+
+dfc2 <- cyberb %>%
+    group_by(Location_of_Breached_Information) %>%
+    summarise(count = n()) %>%
+    top_n(n = 5, wt = count)
+
+ggplot(data = dfc2,
+       mapping = aes(x = Location_of_Breached_Information,y = count))+
+  geom_col()+
+  xlab("Medio de almacenamiento de información")+
+  ylab("Cantidad")+
+  ggtitle(("El top 5 de tipos de brechas"))+
+  theme_stata()
+
+#===Pregunta 4============================================================
+cyberb$State <- as.factor(cyberb$State)
+
+dfc3 <- cyberb %>%
+    group_by(State) %>%
+    summarise(count = n()) %>%
+    top_n(n = 5, wt = count)
+
+ggplot(data = dfc3,
+       mapping = aes(x = State,y = count))+
+  geom_col()+
+  xlab("Medio de almacenamiento de información")+
+  ylab("Cantidad")+
+  ggtitle(("El top 5 de estados atacados"))+
+  theme_stata()
+#===Pregunta 5=========================================================
+sum(!is.na(cyberb$Business_Associate_Involved))
+
 
 ```
+
 
 ## Including Plots
 
