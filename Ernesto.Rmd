@@ -21,10 +21,16 @@ if(!require(tidyverse)) {install.packages('tidyverse')}
 library("tidyverse")
 if(!require(ggthemes)) {install.packages('ggthemes')}
 library("ggthemes")
+if(!require(ggthemes)) {install.packages('lubridate')}
+library("lubridate")
 #==Pregunta 1====================================================
 cyberb <- read_csv("Cyber Security Breaches.csv")
 
 cyberb$Type_of_Breach <- as.factor(cyberb$Type_of_Breach)
+cyberb$Date_Posted_or_Updated <- as.Date(cyberb$Date_Posted_or_Updated,format="%d/%m/%Y")
+cyberb$breach_start <- as.Date(cyberb$breach_start,format="%d/%m/%Y")
+cyberb$breach_end <- as.Date(cyberb$breach_end,format="%d/%m/%Y")
+
 
 cb2 <- data.frame(Type_of_Breach= cyberb$Type_of_Breach,Individuals_Affected = cyberb$Individuals_Affected)
 
@@ -44,6 +50,8 @@ ggplot(data = by_type_top5,
   ggtitle(("El top 5 de tipos de brechas"))+
   theme_stata()
 
+#==Pregunta 2=========================================================
+mean((cyberb$breach_end - cyberb$breach_start), na.rm = T)
 
 #===Pregunta 3==============================================================
 
@@ -79,7 +87,6 @@ ggplot(data = dfc3,
   theme_stata()
 #===Pregunta 5=========================================================
 sum(!is.na(cyberb$Business_Associate_Involved))
-
 
 ```
 

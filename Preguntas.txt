@@ -1,7 +1,6 @@
 ¿Cuáles son los tipos de brechas que afectarona más personas?
 
-
-¿Cuánto tiempo le tomó a cada una de las empresas, según el tipo de brecha, superar el inconveniente?
+¿Cual es el tiempo promedio para superar la brecha?
 
 ¿Qué tipo de almacenamiento de la información tuvo mas vulnerabilidades?
 
