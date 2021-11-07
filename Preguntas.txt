@@ -1,6 +1,5 @@
 ¿Cuáles son los tipos de brechas que afectarona más personas?
 
-
 ¿Cual es el tiempo promedio para superar la brecha?
 
 ¿Qué tipo de almacenamiento de la información tuvo mas vulnerabilidades?
@@ -8,4 +7,3 @@
 ¿Cuáles son los Estados más atacados?
 
 ¿Cuántas empresas afectaron a terceros tras un ciberataque?
-

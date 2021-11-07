@@ -2,6 +2,8 @@
 
 getwd()
 
+if(!require(sf)) {install.packages("sf")}
+library("sf")
 if(!require(readr)) {install.packages("readr")}
 library("readr")
 if(!require(dplyr)) {install.packages('dplyr')}
@@ -12,9 +14,7 @@ if(!require(tidyverse)) {install.packages('tidyverse')}
 library(tidyverse)
 
 datos=read.csv("Cyber Security Breaches.csv",sep=",")
-
 #¿Cuáles son los 5 tipos de brechas que afectaron a más personas?
-
 df=data.frame(datos$Type_of_Breach,datos$Individuals_Affected)
 
 df_sum=aggregate(datos$Individuals_Affected,by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum)
@@ -29,16 +29,5 @@ df_order10=df_order10[order(df_order10$x,decreasing=T),]
 ggplot(df_order10, aes(x,TypeofBreach)) + geom_col(alpha=0.8, color = "gray")+ labs(title = "Personas afectadas por tipo de brecha ")+xlab("Millones de Personas afectadas")+  ylab("Tipo de brecha")+ theme(legend.position = 'none',axis.text.x = element_text(angle = 0, vjust=0.6, size = 8),axis.text.y = element_text(angle = 0, vjust=0.6, size = 8))
 
 ggplot(df_order10, aes(TypeofBreach,x)) + geom_count(aes(size=x, color=x),alpha=0.5, color = "red")+ labs(title = "Personas afectadas por tipo de brecha ")+ylab("Millones de Personas afectadas")+  xlab("Tipo de brecha")+ theme(legend.position = 'none',axis.text.x = element_text(angle = 90, vjust=0.6, size = 6))
-
-
-#mosaicplot(table(datos$Individuals_Affected),table(datos$Type_of_Breach))
-
-#df2 <- c(aggregate(datos$Individuals_Affected, by=list(TypeofBreach=datos$Type_of_Breach), FUN=sum))
-
-#df2=df[order(df$x,decreasing=T),]
-
-#barplot((df$x),col=c("yellow","red","blue","green"),las=2)
-#barplot(Estados,col=c("yellow","red","blue","green"),las=2)
-
 
 ```
