@@ -23,9 +23,10 @@ df_sum$x=df_sum$x/1000000
 df_order=df_sum[order(df_sum$x,decreasing=T),]
 
 df_order10=df_order[1:10,]
+df_order10=df_order10[order(df_order10$x,decreasing=T),]
 #total_personas=sum(df_sum$x)
 
-ggplot(df_order10, aes(x,TypeofBreach)) + geom_col(alpha=0.8, color = "gray")+ labs(title = "Personas afectadas por tipo de brecha ")+xlab("Millones de Personas afectadas")+  ylab("Tipo de brecha")+ theme(legend.position = 'none',axis.text.x = element_text(angle = 30, vjust=0.6, size = 6))
+ggplot(df_order10, aes(x,TypeofBreach)) + geom_col(alpha=0.8, color = "gray")+ labs(title = "Personas afectadas por tipo de brecha ")+xlab("Millones de Personas afectadas")+  ylab("Tipo de brecha")+ theme(legend.position = 'none',axis.text.x = element_text(angle = 0, vjust=0.6, size = 8),axis.text.y = element_text(angle = 0, vjust=0.6, size = 8))
 
 ggplot(df_order10, aes(TypeofBreach,x)) + geom_count(aes(size=x, color=x),alpha=0.5, color = "red")+ labs(title = "Personas afectadas por tipo de brecha ")+ylab("Millones de Personas afectadas")+  xlab("Tipo de brecha")+ theme(legend.position = 'none',axis.text.x = element_text(angle = 90, vjust=0.6, size = 6))
 
