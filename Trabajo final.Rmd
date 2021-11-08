@@ -1,31 +1,148 @@
 ---
-title: "Trabajo final"
+title: "Trabajo final Data Science - Grupo 1"
+
 output:
-  html_document:
-    df_print: paged
-  pdf_document: default
+  pdf_document: 
+    df_print: kable
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+```
+# Brechas de ciberseguridad - Estados Unidos    
+-Ernesto Guarda  
+-Christian Vadillo   
+-Cristhian Medina  
+-Jorge Cabrera  
+-Royer Rojas  
+
+## 1 Objetivo
+
+El objetivo de esta práctica es realizar un estudio de las brechas de ciberseguridad que se han dado en Estados Unidos entre los años 2000 y 2014.
+  
+Luego de presentar la estructura y los trabajos realizados en el dataset se procederá a responder las preguntas que se han planteado con el fin de obtener información para orientarnos a tomar decisiones.  
+
+### 1.1 Librerías utilizadas
+
+Para poder elaborar este script hemos utilizado las siguientes librerias de R:
+
+```{r librerias, echo=F}
+if(!require(readr)) {install.packages("readr")}
+library("readr")
+if(!require(dplyr)) {install.packages('dplyr')}
+library("dplyr")
+if(!require(ggplot2)) {install.packages('ggplot2')}
+library("ggplot2")
+if(!require(tidyverse)) {install.packages('tidyverse')}
+library("tidyverse")
+if(!require(ggthemes)) {install.packages('ggthemes')}
+library("ggthemes")
+if(!require(lubridate)) {install.packages('lubridate')}
+library("lubridate")
+if(!require(lattice)) {install.packages('lattice')}
+library("lattice")
+if(!require(survival)) {install.packages('survival')}
+library("survival")
+if(!require(Formula)) {install.packages('Formula')}
+library("Formula")
+if(!require(Hmisc)) {install.packages('Hmisc')}
+library("Hmisc")
+if(!require(rmarkdown)) {install.packages('rmarkdown')}
+library("rmarkdown")
+if(!require(knitr)) {install.packages('knitr')}
+library("knitr")
+```
+1. readr
+2. dplyr
+3. ggplot2
+4. tidyverse
+5. ggthemes
+6. lubridate
+7. lattice
+8. survival
+9. Formula
+10. Hmisc
+
+### 1.2 Dataset
+
+El dataset utilizado se llama "Cyber Security Breaches" y puede se encontrado dando click [aquí](https://www.kaggle.com/alukosayoenoch/cyber-security-breaches-data)
+
+```{r , echo=FALSE}
+cyberb <- read_csv("https://raw.githubusercontent.com/nestozx22/datascience/main/Cyber%20Security%20Breaches.csv")
 ```
 
-## R Markdown
+### 1.3 Preparación del dataset
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Antes de comenzar a trabajar con el dataset ajustaremos los tipos de variables para poder obtener resultados correctos
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+#La variable "State" la convertiremos a tipo factor
+cyberb$State <- as.factor(cyberb$State)
+#La variable "Type_of_Breach" la convertiremos a tipo factor
+cyberb$Type_of_Breach <- as.factor(cyberb$Type_of_Breach)
+#La variable "Location_of_Breached_Information" la convertiremos a tipo factor
+cyberb$Location_of_Breached_Information <- as.factor(cyberb$Location_of_Breached_Information)
+#La variable "Date_Posted_or_Updated" la convertiremos a tipo fecha
+cyberb$Date_Posted_or_Updated <- as.Date(cyberb$Date_Posted_or_Updated,format="%d/%m/%Y")
+#La variable "breach_start" la convertiremos a tipo fecha
+cyberb$breach_start <- as.Date(cyberb$breach_start,format="%d/%m/%Y")
+#La variable "breach_end" la convertiremos a tipo fecha
+cyberb$breach_end <- as.Date(cyberb$breach_end,format="%d/%m/%Y")
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+## 1.4 Descripción de las variables del dataset
+```{r , echo=FALSE}
+describe(cyberb)
+```
+## 1.5 Resumen del dataset
+```{r , echo=FALSE}
+summary(cyberb)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## 2 Preguntas 
+## 2.1 ¿Cuáles son los tipos de brechas que afectarona más personas? 
+## 2.2 ¿Cual es el tiempo promedio para superar la brecha?
+## 2.3 ¿Qué tipo de almacenamiento de la información tuvo mas vulnerabilidades?
+## 2.4 ¿Cuáles son los Estados más atacados?
+## 2.5 ¿Cuántas empresas afectaron a terceros tras un ciberataque?
+
+```{r}
+si <- (sum(!is.na(cyberb$Business_Associate_Involved))*100)/length(cyberb$Business_Associate_Involved)
+no <- (sum(is.na(cyberb$Business_Associate_Involved))*100)/length(cyberb$Business_Associate_Involved)
+
+a5 <- data.frame(
+  Respuesta=c("SI","NO"),
+  Porcentajte=c(si,no)
+)
+```
+
+```{r, echo=FALSE}
+ggplot(a5, aes(x="", y=Porcentajte, fill=Respuesta)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0)
+```
+
+
+## 2.6 Las 10 empresas que tuvieron la mayor cantidad de afectados
+
+```{r}
+a6 <- (data.frame (ID = paste("E",c(1:length(cyberb$Name_of_Covered_Entity)), sep = ""),
+                   Entidad = cyberb$Name_of_Covered_Entity,
+                   Individuos_afectados = trunc((cyberb$Individuals_Affected)/1000))) %>% arrange(desc(Individuos_afectados)) %>% slice(1:10)
+```
+```{r , echo=FALSE}
+ggplot(data = a6, 
+       mapping = aes(x = ID, y = Individuos_afectados))+
+  geom_point() + 
+  geom_segment( aes(x=ID, xend=ID, y=0, yend=Individuos_afectados))+
+  xlab("ID Entidad")+
+  ylab("Individuos afectados (en miles)")+
+  ggtitle(("Top 10 de empresas afectadas"))+
+  theme_stata()
+
+kable(a6, caption = "Top 5 empresas afectadas")
+```
+
+
+
+
