@@ -12,6 +12,12 @@ if(!require(ggplot2)) {install.packages('ggplot2')}
 library(ggplot2)
 if(!require(tidyverse)) {install.packages('tidyverse')}
 library(tidyverse)
+if(!require(mapdata)) {install.packages('mapdata')}
+library(mapdata)
+if(!require(maps)) {install.packages('maps')}
+library(maps)
+if(!require(ggrepel)) {install.packages('ggrepel')}
+library(ggrepel)
 
 datos=read.csv("Cyber Security Breaches.csv",sep=",")
 #¿Cuáles son los 5 tipos de brechas que afectaron a más personas?
@@ -29,5 +35,34 @@ df_order10=df_order10[order(df_order10$x,decreasing=T),]
 ggplot(df_order10, aes(x,TypeofBreach)) + geom_col(alpha=0.8, color = "gray")+ labs(title = "Personas afectadas por tipo de brecha ")+xlab("Millones de Personas afectadas")+  ylab("Tipo de brecha")+ theme(legend.position = 'none',axis.text.x = element_text(angle = 0, vjust=0.6, size = 8),axis.text.y = element_text(angle = 0, vjust=0.6, size = 8))
 
 ggplot(df_order10, aes(TypeofBreach,x)) + geom_count(aes(size=x, color=x),alpha=0.5, color = "red")+ labs(title = "Personas afectadas por tipo de brecha ")+ylab("Millones de Personas afectadas")+  xlab("Tipo de brecha")+ theme(legend.position = 'none',axis.text.x = element_text(angle = 90, vjust=0.6, size = 6))
+
+mapa_mundo <- map_data("world") 
+map('usa',col="black", lwd=1, mar=rep(0,4) )
+
+# Para visualizar el mapa utilizamos geom_polygon() 
+mapa_mundo %>%
+  ggplot() +
+  geom_polygon(aes( x= long, y = lat, group = group),
+               fill = "grey80",
+               color = "white") +
+  ggtitle( "Mapamundi") 
+
+data(us.cities)
+capitals <- subset(us.cities, capital == 2)
+
+capitals_notAKHI <- capitals[!(capitals$country.etc %in% "AK" | capitals$country.etc %in% "HI"), ] #exclude Alaska and Hawaii
+
+capitals_notAKHI$city<-sub(' [^ ]*$','',capitals_notAKHI$name) 
+#capitals_notAKHI$city <- sub(' [^ ]*$','',capitals_notAKHI$name) # split out city for the label
+
+ggplot(capitals_notAKHI, aes(long, lat))
+  borders("state") +
+  geom_point() +
+  coord_quickmap() +
+  geom_label_repel(aes(label = city), size = 2)
+
+merge(x = datos, y = capitals_notAKHI, by = c("country.etc", "State")) # Equivalente
+
+
 
 ```
