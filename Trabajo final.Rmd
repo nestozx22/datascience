@@ -102,14 +102,63 @@ summary(cyberb)
 ## 2 Preguntas 
 ## 2.1 ¿Cuáles son los tipos de brechas que afectarona más personas? 
 ## 2.2 ¿Cual es el tiempo promedio para superar la brecha?
+
+```{r}
+#Se crea un nuevo dataframe en el cual almacenamos los días que duran las brechas
+a2 <- data.frame(day=na.omit(cyberb$breach_end - cyberb$breach_start))
+#luego calculamos el promedio 
+media <- as.numeric(mean(a2$day))
+```
+
+```{r, echo=FALSE}
+
+ggplot(data = a2,
+       mapping = aes(1:145,day))+
+  geom_line()+
+  geom_hline(yintercept = media, color="red")+
+  xlab("Cantidad de observaciones")+
+  ylab("Días")+
+  theme_stata()
+
+```
+
 ## 2.3 ¿Qué tipo de almacenamiento de la información tuvo mas vulnerabilidades?
 
 ```{r}
-##a3 <- cyberb %>%
-#    group_by(Location_of_Breached_Information) %>%
-#    summarise(count = n())
-#a3[ ,a3[ ,"count"]<20]
+#Creamos un nuevo dataframe en el cual esten agrupados los datos de la columna  
+#"Location_of_Breached_Information" y sume la cantidad de repeticiones que tiene
+#dicho valor
+a3 <- cyberb %>%
+    group_by(Location_of_Breached_Information) %>%
+    summarise(count = n())
+#Todo aquellos valores que sean menores a 20 seran ingresados en el grupo 
+#"Other"  para disminuir la cantidad de observaciones de la columna de a3 
+#"Location_of_Breached_Information"
+a3[a3$Location_of_Breached_Information=="Other", "count"] <-  
+  a3[a3$Location_of_Breached_Information=="Other", "count"]+sum(a3[a3$count<20, 
+                                                                   "count"])
+#Asignamos a a3 el dataframe cuyas observaciones sean mayores o iguales a 20  
+#en la columna "count"
+a3 <- a3[a3$count>=20, ]  
 ```
+
+```{r, echo=FALSE}
+a3$fraction = a3$count / sum(a3$count)
+a3$ymax = cumsum(a3$fraction)
+a3$ymin = c(0, head(a3$ymax, n=-1))
+a3$labelPosition <- (a3$ymax + a3$ymin) / 2
+ 
+ggplot(a3, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Location_of_Breached_Information)) +
+  geom_rect() +
+  geom_text( x=2, aes(y=labelPosition, label=count, color=Location_of_Breached_Information), size=6) + 
+  scale_fill_brewer(palette=1) +
+  scale_color_brewer(palette=1) +
+  coord_polar(theta="y") +
+  xlim(c(-1, 4)) +
+  theme_void() + 
+  theme(panel.background = element_rect(fill = "black"))
+```
+
 
 ## 2.4 ¿Cuáles son los Estados más atacados?
 ## 2.5 ¿Cuántas empresas afectaron a terceros tras un ciberataque?
@@ -136,7 +185,9 @@ ggplot(a5, aes(x="", y=Porcentajte, fill=Respuesta)) +
 ```{r}
 a6 <- (data.frame (ID = paste("E",c(1:length(cyberb$Name_of_Covered_Entity)), sep = ""),
                    Entidad = cyberb$Name_of_Covered_Entity,
-                   Individuos_afectados = trunc((cyberb$Individuals_Affected)/1000))) %>% arrange(desc(Individuos_afectados)) %>% slice(1:10)
+                   Individuos_afectados = trunc((cyberb$Individuals_Affected)/1000))) %>%
+  arrange(desc(Individuos_afectados)) %>%
+  slice(1:10)
 ```
 ```{r , echo=FALSE}
 ggplot(data = a6, 
