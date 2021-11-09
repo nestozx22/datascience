@@ -1,8 +1,9 @@
 ---
 title: "Trabajo final Data Science - Grupo 1"
-
 output:
-  pdf_document: 
+  html_document:
+    df_print: paged
+  pdf_document:
     df_print: kable
 ---
 

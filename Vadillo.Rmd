@@ -19,7 +19,10 @@ library(maps)
 if(!require(ggrepel)) {install.packages('ggrepel')}
 library(ggrepel)
 
-datos=read.csv("Cyber Security Breaches.csv",sep=",")
+#datos=read.csv("Cyber Security Breaches.csv",sep=",")
+
+datos= read_csv("https://raw.githubusercontent.com/nestozx22/datascience/main/Cyber%20Security%20Breaches.csv")
+
 #¿Cuáles son los 5 tipos de brechas que afectaron a más personas?
 df=data.frame(datos$Type_of_Breach,datos$Individuals_Affected)
 
@@ -37,7 +40,7 @@ ggplot(df_order10, aes(x,TypeofBreach)) + geom_col(alpha=0.8, color = "gray")+ l
 ggplot(df_order10, aes(TypeofBreach,x)) + geom_count(aes(size=x, color=x),alpha=0.5, color = "red")+ labs(title = "Personas afectadas por tipo de brecha ")+ylab("Millones de Personas afectadas")+  xlab("Tipo de brecha")+ theme(legend.position = 'none',axis.text.x = element_text(angle = 90, vjust=0.6, size = 6))
 
 mapa_mundo <- map_data("world") 
-map('usa',col="black", lwd=1, mar=rep(0,4) )
+#map('usa',col="black", lwd=1, mar=rep(0,4) )
 
 # Para visualizar el mapa utilizamos geom_polygon() 
 mapa_mundo %>%
@@ -48,21 +51,21 @@ mapa_mundo %>%
   ggtitle( "Mapamundi") 
 
 data(us.cities)
+z<-data.frame(name=c("Puerto Rico PR","Washington DC"),country.etc=c("PR","DC"),pop=c(3194000,692683),lat=c(18.22,38.89),long=c(-66.59,-77.03),capital=c(2,2))
+us.cities<-rbind(us.cities,z)
 capitals <- subset(us.cities, capital == 2)
+names (capitals)[2] = "State"
 
-capitals_notAKHI <- capitals[!(capitals$country.etc %in% "AK" | capitals$country.etc %in% "HI"), ] #exclude Alaska and Hawaii
+#capitals_notAKHI <- capitals[!(capitals$State %in% "AK" | capitals$State %in% "HI"), ] #exclude Alaska and Hawaii
+capitals$city <- sub(' [^ ]*$','',capitals$name) # split out city for the label
 
-capitals_notAKHI$city<-sub(' [^ ]*$','',capitals_notAKHI$name) 
-#capitals_notAKHI$city <- sub(' [^ ]*$','',capitals_notAKHI$name) # split out city for the label
+datos=merge(x = datos, y = capitals, by=c("State"),all=TRUE)
 
-ggplot(capitals_notAKHI, aes(long, lat))
+ggplot(datos, aes(long,lat)) +
   borders("state") +
   geom_point() +
-  coord_quickmap() +
-  geom_label_repel(aes(label = city), size = 2)
+  coord_quickmap()+  
+  #geom_label_repel(aes(label = city), size = 2)+
+  geom_count(aes(size=datos$Individuals_Affected))
 
-merge(x = datos, y = capitals_notAKHI, by = c("country.etc", "State")) # Equivalente
-
-
-
-```
+   ```
