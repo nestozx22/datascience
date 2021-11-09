@@ -77,7 +77,7 @@ cyberb$State <- as.factor(cyberb$State)
 dfc3 <- cyberb %>%
     group_by(State) %>%
     summarise(count = n()) %>%
-    top_n(n = 5, wt = count)
+    top_n(n = 10, wt = count)
 
 ggplot(data = dfc3,
        mapping = aes(x = State,y = count))+
