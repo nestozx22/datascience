@@ -21,7 +21,7 @@ library("ggplot2")
 if(!require(tidyverse)) {install.packages('tidyverse')}
 library("tidyverse")
 if(!require(ggthemes)) {install.packages('ggthemes')}
-library("ggthemes")
+library("ggthemes") 
 if(!require(ggthemes)) {install.packages('lubridate')}
 library("lubridate")
 #==Pregunta 1====================================================

@@ -1,14 +1,7 @@
 ---
 title: "Trabajo final Data Science - Grupo 1"
 output:
-<<<<<<< HEAD
-  pdf_document: 
-=======
-  html_document:
-    df_print: paged
-  pdf_document:
-    df_print: kable
->>>>>>> 1bfc1a8906ecd88847c73b14e0fc419ea8e67cb9
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -112,10 +105,10 @@ summary(cyberb)
 ## 2.3 ¿Qué tipo de almacenamiento de la información tuvo mas vulnerabilidades?
 
 ```{r}
-a3 <- cyberb %>%
-    group_by(Location_of_Breached_Information) %>%
-    summarise(count = n())
-a3[ ,a3[ ,"count"]<20]
+##a3 <- cyberb %>%
+#    group_by(Location_of_Breached_Information) %>%
+#    summarise(count = n())
+#a3[ ,a3[ ,"count"]<20]
 ```
 
 ## 2.4 ¿Cuáles son los Estados más atacados?
