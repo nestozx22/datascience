@@ -66,6 +66,6 @@ ggplot(datos, aes(long,lat)) +
   geom_point() +
   coord_quickmap()+  
   #geom_label_repel(aes(label = city), size = 2)+
-  geom_count(aes(size=datos$Individuals_Affected))
+  geom_count(aes(size=Individuals_Affected,color=Individuals_Affected))
 
-   ```
+```
