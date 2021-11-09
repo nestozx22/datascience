@@ -1,14 +1,9 @@
 ---
 title: "Trabajo final Data Science - Grupo 1"
 output:
-<<<<<<< HEAD
-  pdf_document: 
-=======
   html_document:
     df_print: paged
-  pdf_document:
-    df_print: kable
->>>>>>> 1bfc1a8906ecd88847c73b14e0fc419ea8e67cb9
+  pdf_document: null
 ---
 
 ```{r setup, include=FALSE}
