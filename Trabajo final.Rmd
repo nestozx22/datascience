@@ -64,6 +64,7 @@ library("packcircles")
 10. Hmisc
 11. rmarkdown
 12. knirt
+13. packcircles
 
 ### 1.2 Dataset
 
