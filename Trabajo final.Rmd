@@ -49,6 +49,8 @@ if(!require(rmarkdown)) {install.packages('rmarkdown')}
 library("rmarkdown")
 if(!require(knitr)) {install.packages('knitr')}
 library("knitr")
+if(!require(packcircles)) {install.packages('packcircles')}
+library("packcircles")
 ```
 1. readr
 2. dplyr
@@ -101,6 +103,31 @@ summary(cyberb)
 
 ## 2 Preguntas 
 ## 2.1 ¿Cuáles son los tipos de brechas que afectarona más personas? 
+
+```{r}
+a1 <- cyberb %>%
+    group_by(Type_of_Breach) %>%
+    summarise(count = n())
+a1$ID <- paste("B",c(1:length(a1$Type_of_Breach)), sep = "")
+```
+
+```{r, echo=FALSE}
+
+packing <- circleProgressiveLayout(a1$count, sizetype='area')
+a1 <- cbind(a1, packing)
+dat.gg <- circleLayoutVertices(packing, npoints=50)
+ggplot() + 
+  geom_polygon(data = dat.gg, aes(x, y, group = id, fill=as.factor(id)), 
+               colour = "black", alpha = 0.6) +
+  geom_text(data = a1, aes(x, y, size=count, label = ID)) +
+  scale_size_continuous(range = c(1,4)) +
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+a11 <- data.frame(Id = a1$ID, "Tipo de brecha"= a1$Type_of_Breach, Cantidad=a1$count)
+kable(a11, caption = "Tipos de brechas")
+```
+
 ## 2.2 ¿Cual es el tiempo promedio para superar la brecha?
 
 ```{r}
