@@ -1,6 +1,8 @@
 ---
 title: "Trabajo final Data Science - Grupo 1"
 output:
+  html_document:
+    df_print: paged
   pdf_document: default
 ---
 
