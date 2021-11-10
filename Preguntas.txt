@@ -2,4 +2,5 @@
 ¿Cual es el tiempo promedio para superar la brecha?
 ¿Qué tipo de almacenamiento de la información tuvo mas vulnerabilidades?
 ¿Cuáles son los Estados más atacados?
+¿Cuántas empresas afectaron a terceros tras un ciberataque?
 Las 10 empresas que tuvieron la mayor cantidad de afectados
