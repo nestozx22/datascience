@@ -1,8 +1,6 @@
 ---
 title: "Trabajo final Data Science - Grupo 1"
 output:
-  html_document:
-    df_print: paged
   pdf_document: default
 ---
 
@@ -53,6 +51,14 @@ if(!require(knitr)) {install.packages('knitr')}
 library("knitr")
 if(!require(packcircles)) {install.packages('packcircles')}
 library("packcircles")
+if(!require(sf)) {install.packages("sf")}
+library("sf")
+if(!require(mapdata)) {install.packages('mapdata')}
+library(mapdata)
+if(!require(maps)) {install.packages('maps')}
+library(maps)
+if(!require(ggrepel)) {install.packages('ggrepel')}
+library(ggrepel)
 ```
 1. readr
 2. dplyr
@@ -67,6 +73,10 @@ library("packcircles")
 11. rmarkdown
 12. knirt
 13. packcircles
+14. sf
+15. mapdata
+16. maps
+17. ggrepel
 
 ### 1.2 Dataset
 
@@ -195,6 +205,56 @@ ggplot(a3, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Location_of_Breached_I
 
 
 ## 2.4 ¿Cuáles son los Estados más atacados?
+
+
+```{r}
+a4 <- cyberb
+#Cargamos el data frame con los datos de los nobmbres de las ciudades, 
+#abreviatura del nombre de la ciudad, población, latitud y longitud geográfica 
+#y capital del Estado
+data(us.cities)
+
+#En el data frame anterior, no se tiene considerado a los Estados de Puerto Rico
+#y Washington, por lo que se procedió a agregarlos
+z<-data.frame(name=c("Puerto Rico PR","Washington DC"),country.etc=c("PR","DC"),
+              pop=c(3194000,692683),lat=c(18.22,38.89),
+              long=c(-66.59,-77.03),capital=c(2,2))
+us.cities<-rbind(us.cities,z)
+
+#Creamos el data frame con las capitales de cada uno de los Estados
+capitals <- subset(us.cities, capital == 2)
+
+#Para utilizar la función MERGE cambiamos el nombre de la columna de indice 2 
+#por State
+names (capitals)[2] = "State"
+a4=merge(x = a4, y = capitals, by=c("State"),all=TRUE)
+
+#Creamos el data frame Coordenadas con la Latitud y Longitud
+coordenadas <- data.frame(capitals$long,capitals$lat,stringsAsFactors = F) 
+
+#Acondicionamos la columna 4 para mostrar de manera más adecuada la leyenda del 
+#gráfico
+names(a4)[4]="Miles_Individuos_Afectados"
+a4$Miles_Individuos_Afectados=a4$Miles_Individuos_Afectados/1000
+```
+
+```{r, echo=FALSE, warning=FALSE}
+ggplot(a4, aes(long,lat)) +
+  borders("state") +
+  geom_point() + 
+  geom_count(aes(size=Miles_Individuos_Afectados,color=Miles_Individuos_Afectados))+
+    guides(color='legend')+
+    labs(title = "Individuos afectados por Estados",
+       subtitle = "Del 2014 al 2020")+
+  geom_text_repel(data = coordenadas, 
+                  aes(capitals$long, capitals$lat, label =capitals$State),size =3)+
+  theme_bw()+
+  ylab("Latitud")+
+  xlab("Longitud")+
+  theme(axis.title=element_text(size=10,face="bold"),legend.position = "bottom")
+
+```
+
 ## 2.5 ¿Cuántas empresas afectaron a terceros tras un ciberataque?
 
 ```{r}
