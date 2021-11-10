@@ -50,22 +50,41 @@ mapa_mundo %>%
                color = "white") +
   ggtitle( "Mapamundi") 
 
+#Cargamos el data frame con los datos de los nobmbres de las ciudades, abreviatura del nombre de la ciudad, población, latitud y longitud geográfica y capital del EStado
 data(us.cities)
+
+#En el data frame anterior, no se tiene considerado a los Estados de Puerto Rico y Washington, por lo que se procedió a agregarlos
 z<-data.frame(name=c("Puerto Rico PR","Washington DC"),country.etc=c("PR","DC"),pop=c(3194000,692683),lat=c(18.22,38.89),long=c(-66.59,-77.03),capital=c(2,2))
 us.cities<-rbind(us.cities,z)
+
+#Creamos el data frame con las capitales de cada uno de los Estados
 capitals <- subset(us.cities, capital == 2)
+
+#Para utilizar la función MERGE cambiamos el nombre de la columna de indice 2 por State
 names (capitals)[2] = "State"
-
-#capitals_notAKHI <- capitals[!(capitals$State %in% "AK" | capitals$State %in% "HI"), ] #exclude Alaska and Hawaii
-capitals$city <- sub(' [^ ]*$','',capitals$name) # split out city for the label
-
 datos=merge(x = datos, y = capitals, by=c("State"),all=TRUE)
+
+#Creamos el data frame Coordenadas con la Latitud y Longitud
+coordenadas <- data.frame(capitals$long,capitals$lat,stringsAsFactors = F) 
+
+#Acondicionamos la columna 4 para mostrar de manera más adecuada la leyenda del gráfico
+names(datos)[4]="Miles_Individuos_Afectados"
+datos$Miles_Individuos_Afectados=datos$Miles_Individuos_Afectados/1000
+
 
 ggplot(datos, aes(long,lat)) +
   borders("state") +
-  geom_point() +
-  coord_quickmap()+  
-  #geom_label_repel(aes(label = city), size = 2)+
-  geom_count(aes(size=Individuals_Affected,color=Individuals_Affected))
+  geom_point() + 
+  geom_count(aes(size=Miles_Individuos_Afectados,color=Miles_Individuos_Afectados))+
+    guides(color='legend')+
+    labs(title = "Individuos afectados por Estados",
+       subtitle = "Del 2014 al 2020")+
+  geom_text_repel(data = coordenadas, 
+                  aes(capitals$long, capitals$lat, label =capitals$State),size =3)+
+  theme_bw()+
+  ylab("Latitud")+
+  xlab("Longitud")+
+  theme(axis.title=element_text(size=10,face="bold"))
 
+  
 ```
