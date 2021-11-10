@@ -108,9 +108,13 @@ summary(cyberb)
 ## 2.1 ¿Cuáles son los tipos de brechas que afectarona más personas? 
 
 ```{r}
+#Creamos un nuevo dataframe en el cual esten agrupados los datos de la columna  
+#"Type_of_Breach" y sume la cantidad de repeticiones que tiene
+#dicho valor
 a1 <- cyberb %>%
     group_by(Type_of_Breach) %>%
     summarise(count = n())
+#Agregamos la variable ID para que se pueda apreciar mejor en el gráfico
 a1$ID <- paste("B",c(1:length(a1$Type_of_Breach)), sep = "")
 ```
 
@@ -145,11 +149,11 @@ media <- as.numeric(mean(a2$day))
 ggplot(data = a2,
        mapping = aes(1:145,day))+
   geom_line()+
-  geom_hline(yintercept = media, color="red")+
+  geom_hline(yintercept = media, color="red")+ 
+  scale_y_continuous(breaks = sort(c(seq(min(a2$day), max(a2$day), length.out=5),as.integer (media) )))+
   xlab("Cantidad de observaciones")+
   ylab("Días")+
   theme_stata()
-
 ```
 
 ## 2.3 ¿Qué tipo de almacenamiento de la información tuvo mas vulnerabilidades?
